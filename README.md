@@ -1,135 +1,114 @@
-🚗 Obstacle Avoidance Robotic Car Using Arduino
+Obstacle Avoidance Robotic Car Using Arduino
 
-This project implements an intelligent autonomous navigation system using Arduino, where the robotic car detects obstacles using ultrasonic sensing, performs directional scanning using a servo motor, and makes real-time path decisions through a programmed control algorithm.
-The system integrates motor actuation, distance measurement, and servo-based environmental scanning to achieve smooth and adaptive obstacle avoidance.
+This project presents the design and implementation of an autonomous obstacle avoidance robotic vehicle using an Arduino UNO microcontroller.
+The system integrates an ultrasonic distance sensor, a servo-based scanning mechanism, and an L298N motor driver to enable real-time navigation and intelligent path selection.
 
-Images and circuit diagrams have already been uploaded and will appear below this documentation automatically.
+The robot image and circuit diagram have been uploaded to the repository.
 
-📘 Project Overview
+1. Overview
 
-The robot is designed to operate fully autonomously.
-Using the HC-SR04 ultrasonic sensor, the car continuously measures distance ahead. When an obstacle is detected within the predefined threshold (30 cm), the robot engages a servo-mounted scanning system to evaluate left and right paths and choose the optimal direction.
+The robotic car moves forward under normal operation while continuously monitoring the distance to obstacles using the HC-SR04 ultrasonic sensor.
+When an obstacle is detected within 30 cm, the servo motor performs a scanning routine to evaluate left and right clearance and determine the optimal direction.
 
-The decision-making process is driven by precise sensor measurements using the NewPing library, combined with differential motor control through an L298N motor driver.
+This project demonstrates concepts in embedded systems, real-time control, actuator interfacing, and autonomous robotics.
 
-This approach demonstrates fundamental concepts in:
+2. Working Principle (Based on the Code)
+2.1 Normal Operation
 
-Embedded systems
+The robot moves forward at a predefined speed.
 
-Autonomous robotics
+The ultrasonic sensor monitors the distance ahead.
 
-Real-time decision algorithms
+2.2 Obstacle Detection (< 30 cm)
 
-Sensor fusion
+The robot stops.
 
-Actuator control
+The robot reverses briefly.
 
-Mechatronics system integration
+The servo rotates left (180°) to measure distance.
 
-🧠 Working Algorithm (Based Entirely on Your Code)
-1️⃣ Forward Motion
+The servo rotates right (0°) to measure distance.
 
-Motors run at constant speed until an obstacle is detected.
+The servo returns to center (90°).
 
-2️⃣ Obstacle Detection
+2.3 Decision Logic
 
-If distance < 30 cm → robot stops.
+If left distance is zero → turn right
 
-3️⃣ Avoidance Maneuver
+If right distance is zero → turn left
 
-Reverse briefly to create safe turning space.
+If left distance ≥ right distance → turn left
 
-Servo rotates left (180°) → reads distance.
+Else → turn right
 
-Servo rotates right (0°) → reads distance.
+2.4 Resume Forward Motion
 
-Servo re-centers (90°).
+After turning, the robot continues moving forward.
 
-4️⃣ Decision Logic
+This logic is implemented exactly in the robotic_car.ino file.
 
-Based on your code:
+3. Hardware Components
 
-Condition	Action
-Left distance = 0	Turn right
-Right distance = 0	Turn left
-Left ≥ Right	Turn left
-Else	Turn right
-5️⃣ Resume Navigation
+Arduino UNO
 
-After completing the turn, motors resume forward movement.
+HC-SR04 Ultrasonic Sensor
 
-This logic creates a reactive and adaptive navigation system capable of handling unknown environments without prior mapping.
+SG90 Servo Motor
 
-🎡 Hardware Architecture
-Microcontroller
+L298N Motor Driver
 
-Arduino UNO – central control unit, executes logic and controls sensors and motors.
+Two DC gear motors
 
-Sensing
+Battery pack
 
-HC-SR04 Ultrasonic Sensor for distance measurement
+Jumper wires and chassis components
 
-Servo Motor (SG90) for directional scanning
+4. Pin Configuration (Matches Code)
+4.1 Ultrasonic Sensor
 
-Motor Drive
+TRIG → Pin 11
 
-L298N Motor Driver Module
+ECHO → Pin 12
 
-Enables speed control (PWM)
+VCC → 5V
 
-Handles forward/reverse motor rotation
+GND → GND
 
-Actuators
+4.2 Servo Motor
 
-Two DC Gear Motors for differential drive steering
+Signal → Pin 3
 
-Power
+VCC → 5V
 
-External battery pack for motor load
+GND → GND
 
-USB or 5V rail for Arduino logic
+4.3 Right Motor (L298N)
 
-🔌 Pin Configuration (Verified From Your Code)
-Ultrasonic Sensor
-Pin	Arduino
-TRIG	11
-ECHO	12
-Servo Motor
-Pin	Arduino
-Signal	3
-VCC	5V
-GND	GND
-Right Motor (L298N)
-Function	Arduino Pin
-ENA	5
-IN1	7
-IN2	8
-Left Motor (L298N)
-Function	Arduino Pin
-ENB	6
-IN1	9
-IN2	10
-📂 Project Structure
-📦 Obstacle Avoidance Robotic Car
- ┣ 📂 code
- ┃ ┗ robotic_car.ino
- ┣ README.md
- ┣ LICENSE
- ┣ robot.jpg
- ┣ circuit-diagram.jpg
+ENA → Pin 5
 
-📚 Required Libraries
+IN1 → Pin 7
 
-Install Via Arduino Library Manager:
+IN2 → Pin 8
 
-Servo (preinstalled)
+4.4 Left Motor (L298N)
 
-NewPing by Tim Eckel
-→ Used for accurate ultrasonic distance measurement and faster sensing cycles.
+ENB → Pin 6
 
-🛠 Core Code (Aligned With Your Implementation)
-#include <Servo.h>
-#include <NewPing.h>
+IN1 → Pin 9
+
+IN2 → Pin 10
+
+5. Required Libraries
+
+Install the following Arduino libraries:
+
+Servo
+
+NewPing (by Tim Eckel)
+
+6. Code Reference
+
+Key definitions from the implementation:
 
 #define SERVO_PIN 3
 #define ULTRASONIC_SENSOR_TRIG 11
@@ -139,45 +118,37 @@ NewPing by Tim Eckel
 #define DISTANCE_TO_CHECK 30
 
 
-Your full logic includes:
+Full implementation is available in the code/robotic_car.ino file.
 
-Intelligent reverse maneuvering
+7. Project Structure
+arduino-obstacle-avoidance-car/
+│
+├── code/
+│   └── robotic_car.ino
+│
+├── robotimage.jpg
+├── circuit diagram.png
+├── README.md
+└── LICENSE
 
-Direction-based turning
+8. Demo Video
 
-Adaptive scanning
+YouTube Video Link:
+https://youtu.be/BB8Q-wxkxsg
 
-PWM motor speed control
+9. Uploaded Files
 
-Signed speed handling for direction
+Robot Image: uploaded to repository
 
-🎥 Demo Video
+Circuit Diagram: uploaded to repository
 
-▶ Watch on YouTube
+10. Conclusion
 
-📸 Robot Image (Uploaded)
+This project showcases an autonomous robotic system using ultrasonic sensing, servo-based directional scanning, and motor control through an L298N driver.
+The design demonstrates embedded programming skills, real-time decision-making, and hardware integration required for basic autonomous navigation.
 
-📘 Circuit Diagram (Uploaded)
+Prepared By
 
-📝 Conclusion
-
-This project demonstrates a strong understanding of:
-
-Embedded C programming
-
-Robotic motion control
-
-Real-time obstacle detection
-
-Intelligent decision-making algorithms
-
-Sensor-actuator integration
-
-Hardware interfacing and robotics system design
-
-It serves as a solid foundation for advanced robotics work such as autonomous mapping, PID navigation, SLAM, or AI-driven motion planning.
-
-✍️ Project Author
-
-Hemant Shelar From Zeal College
+Hemant Shelar
+Zeal College of Engineering, Pune
 
